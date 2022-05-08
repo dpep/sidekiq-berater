@@ -1,7 +1,7 @@
-package_name = Dir.glob("*.gemspec")[0].split(".")[0]
-require_relative "lib/#{package_name}/version"
+package_name = File.basename(__FILE__).split(".")[0]
+require File.expand_path("lib/#{package_name}/version", __dir__)
 
-package = MY_NEW_GEM
+package = Sidekiq::Berater
 
 
 Gem::Specification.new do |s|
@@ -10,11 +10,14 @@ Gem::Specification.new do |s|
   s.authors     = ["Daniel Pepper"]
   s.summary     = package.to_s
   s.description = "..."
-  s.homepage    = "https://github.com/dpep/#{package_name}_rb"
+  s.homepage    = "https://github.com/dpep/#{package_name}"
   s.license     = "MIT"
 
   s.files       = Dir.glob("lib/**/*")
   s.test_files  = Dir.glob("spec/**/*_spec.rb")
+
+  s.add_dependency "berater"
+  s.add_dependency "sidekiq"
 
   s.add_development_dependency "byebug"
   s.add_development_dependency "codecov"
