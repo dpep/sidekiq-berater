@@ -7,7 +7,7 @@ end
 class LimitedWorker
   include Sidekiq::Worker
 
-  sidekiq_options limiter: 123
+  # limiter = Berater::Unlimiter.new
   # sidekiq_options limiter: Berater.new
 
   def perform; end

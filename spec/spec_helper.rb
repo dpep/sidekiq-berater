@@ -1,6 +1,8 @@
+require "berater/rspec"
 require "byebug"
 require "rspec"
 require "simplecov"
+require "sidekiq/testing/inline"
 
 SimpleCov.start do
   add_filter /spec/
@@ -31,5 +33,4 @@ end
 
 Dir["./spec/support/**/*.rb"].sort.each { |f| require f }
 
-require 'sidekiq/testing'
 Sidekiq::Testing.inline!

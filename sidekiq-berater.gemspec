@@ -1,5 +1,5 @@
 package_name = File.basename(__FILE__).split(".")[0]
-require File.expand_path("lib/#{package_name}/version", __dir__)
+require File.expand_path(Dir.glob("**/version.rb")[0], __dir__)
 
 package = Sidekiq::Berater
 
@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.test_files  = Dir.glob("spec/**/*_spec.rb")
 
   s.add_dependency "berater"
-  s.add_dependency "sidekiq"
+  s.add_dependency "sidekiq", ">= 6"
 
   s.add_development_dependency "byebug"
   s.add_development_dependency "codecov"
