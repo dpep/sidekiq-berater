@@ -5,12 +5,12 @@ require "simplecov"
 require "sidekiq/testing/inline"
 
 SimpleCov.start do
-  add_filter /spec/
+  add_filter "spec/"
 end
 
 if ENV["CI"] == "true" || ENV["CODECOV_TOKEN"]
-  require "codecov"
-  SimpleCov.formatter = SimpleCov::Formatter::Codecov
+  require "simplecov_json_formatter"
+  SimpleCov.formatter = SimpleCov::Formatter::JSONFormatter
 end
 
 # load this gem
@@ -25,7 +25,7 @@ RSpec.configure do |config|
     # verify existence of stubbed methods
     mocks.verify_partial_doubles = true
   end
-  
+
   config.before(:each) do
     Sidekiq::Worker.clear_all
   end

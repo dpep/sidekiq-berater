@@ -1,5 +1,4 @@
-# install dependencies and run tests
-# https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
+name: Ruby
 
 on:
   push:
@@ -14,10 +13,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 2.5.5
-        bundler-cache: true
-    - run: bundle install
-    - run: bundle exec rspec
+      - name: clone ${{ github.repository }}
+        uses: actions/checkout@v4
+      - name: setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.0"
+          bundler-cache: true
+      - name: run tests
+        run: bundle exec rspec
+      - name: upload code coverage
+        uses: codecov/codecov-action@v3
