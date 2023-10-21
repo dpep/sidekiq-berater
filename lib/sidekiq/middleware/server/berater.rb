@@ -3,6 +3,8 @@ module Sidekiq
     module Server
       class Berater
         def call(worker, *, &block)
+          return yield unless worker.is_a?(::Sidekiq::Berater::Worker)
+
           limiter = worker.sidekiq_options_hash["limiter"]
           return yield unless limiter&.is_a?(::Berater::Limiter)
 

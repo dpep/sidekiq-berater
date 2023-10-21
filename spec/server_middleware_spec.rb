@@ -1,10 +1,8 @@
 describe Sidekiq::Middleware::Server::Berater do
   let(:instance) { described_class.new }
-  let(:worker) { MockWorker.new }
 
   before do
     allow(described_class).to receive(:new).and_return(instance)
-    allow(MockWorker).to receive(:new).and_return(worker)
   end
 
   it "calls the middleware" do
@@ -32,6 +30,20 @@ describe Sidekiq::Middleware::Server::Berater do
           MockWorker.perform_async
         }.to be_overloaded
       end
+    end
+  end
+
+  context "with an ordinary Sidekiq Worker" do
+    let(:worker) { SidekiqWorker.new }
+
+    before do
+      allow(SidekiqWorker).to receive(:new).and_return(worker)
+    end
+
+    it "calls the worker" do |example|
+      expect(worker).to receive(:perform)
+
+      SidekiqWorker.perform_async
     end
   end
 end
