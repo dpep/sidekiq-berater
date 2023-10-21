@@ -7,38 +7,30 @@ describe Sidekiq::Middleware::Server::Berater do
     allow(MockWorker).to receive(:new).and_return(worker)
   end
 
-  describe "with Sidekiq" do
-    it "has been loaded into Sidekiq::Testing" do
-      expect(
-        Sidekiq::Testing.server_middleware.exists?(described_class)
-      ).to be true
-    end
+  it "calls the middleware" do
+    expect(instance).to receive(:call)
+    MockWorker.perform_async
+  end
 
-    it "calls the middleware" do
-      expect(instance).to receive(:call)
+  context "when worker has a limiter" do
+    let(:limiter) { Berater::Unlimiter.new }
+
+    before { MockWorker.sidekiq_options(limiter: limiter) }
+
+    it "calls the limiter" do
+      expect(limiter).to receive(:limit)
       MockWorker.perform_async
     end
 
-    context "when worker has a limiter" do
-      let(:limiter) { Berater::Unlimiter.new }
+    context "when overloaded" do
+      let(:limiter) { Berater::Inhibitor.new }
 
-      before { MockWorker.sidekiq_options(limiter: limiter) }
+      it "is overloaded" do
+        expect(worker).not_to receive(:perform)
 
-      it "calls the limiter" do
-        expect(limiter).to receive(:limit)
-        MockWorker.perform_async
-      end
-
-      context "when overloaded" do
-        let(:limiter) { Berater::Inhibitor.new }
-
-        it "is overloaded" do
-          expect(worker).not_to receive(:perform)
-
-          expect {
-            MockWorker.perform_async
-          }.to be_overloaded
-        end
+        expect {
+          MockWorker.perform_async
+        }.to be_overloaded
       end
     end
   end
