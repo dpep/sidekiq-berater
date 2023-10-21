@@ -15,9 +15,9 @@ module Sidekiq
           raise ArgumentError if args.empty? && kwargs.empty?
 
           self.limiter = Berater(
-            kwargs.delete(:key) || self.to_s, 
+            kwargs.delete(:key) || self.to_s,
             *args,
-            **Sidekiq::Berater.default_limits.merge(**kwargs),
+            **Sidekiq::Berater.defaults.merge(**kwargs),
           )
         end
       end

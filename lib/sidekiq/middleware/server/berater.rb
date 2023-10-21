@@ -9,7 +9,10 @@ module Sidekiq
 
           worker.class.limiter.limit(&block)
         rescue ::Berater::Overloaded
-          byebug
+          raise Sidekiq::Limiter::OverLimit if Sidekiq.ent?
+
+          raise NotImplementedError
+
           # worker.class.perform_in(delay, *msg['args'])
         end
 

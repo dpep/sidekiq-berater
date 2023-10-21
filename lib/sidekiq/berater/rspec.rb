@@ -6,5 +6,7 @@ RSpec.configure do |config|
   	Sidekiq::Testing.server_middleware do |chain|
   	  chain.add Sidekiq::Middleware::Server::Berater
   	end
+
+    Sidekiq::Berater.reset
   end
 end
