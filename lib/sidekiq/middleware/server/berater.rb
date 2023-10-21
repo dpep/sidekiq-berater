@@ -4,12 +4,14 @@ module Sidekiq
       class Berater
         def call(worker, *, &block)
           # byebug
-          options = worker.sidekiq_options_hash["limiter"]
-          return yield unless worker.class.limiter
+          limiter = worker.sidekiq_options_hash["limiter"]
+          return yield unless limiter
 
-          worker.class.limiter.limit(&block)
-        # rescue ::Berater::Overloaded
-          # raise Sidekiq::Limiter::OverLimit if Sidekiq.ent?
+          limiter.limit(&block)
+        rescue ::Berater::Overloaded
+          raise Sidekiq::Limiter::OverLimit if Sidekiq.ent?
+
+          raise
           # worker.class.perform_in(delay, *msg['args'])
         end
       end

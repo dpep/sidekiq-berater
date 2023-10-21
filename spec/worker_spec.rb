@@ -6,6 +6,12 @@ describe Sidekiq::Berater::Worker do
       expect(limiter.capacity).to be 1
     end
 
+    it "saves the limiter in the worker" do
+      limiter = MockWorker.limit(1)
+
+      expect(MockWorker.get_sidekiq_options["limiter"]).to be limiter
+    end
+
     it "uses the worker class as the default key" do
       limiter = MockWorker.limit(1)
       expect(limiter.key).to eq "MockWorker"
@@ -25,22 +31,6 @@ describe Sidekiq::Berater::Worker do
         limiter = MockWorker.limit(1)
         expect(limiter.timeout).to be 30
       end
-    end
-  end
-
-  describe ".limiter" do
-    subject { MockWorker.limiter }
-
-    it { is_expected.to be nil }
-
-    it "updates with .limit" do
-      limiter = MockWorker.limit(1)
-      is_expected.to be limiter
-    end
-
-    it "can be set directly" do
-      MockWorker.limiter = :abc
-      is_expected.to eq :abc
     end
   end
 end

@@ -1,5 +1,5 @@
 class MockWorker
-  include Sidekiq::Worker
+  include Sidekiq::Berater::Worker
 
   def perform; end
 end
@@ -16,6 +16,6 @@ end
 RSpec.configure do |config|
   config.before(:each) do
     # for all workers, clear limiter
-    MockWorker.limiter = nil
+    # MockWorker.limiter = nil
   end
 end

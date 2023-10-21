@@ -1,29 +1,24 @@
 module Sidekiq
-  module Worker
-    module ClassMethods
-      def self.extended(base)
-        base.sidekiq_class_attribute :limiter
-        base.extend(Sidekiq::Berater::Worker::ClassMethods)
-      end
-    end
-  end
-
   module Berater
     module Worker
+      def self.included(base)
+        base.include(Sidekiq::Worker) unless base < Sidekiq::Worker
+        base.extend(ClassMethods)
+      end
+
       module ClassMethods
         def limit(*args, **kwargs)
           raise ArgumentError if args.empty? && kwargs.empty?
 
-          self.limiter = Berater(
+          Berater(
             kwargs.delete(:key) || self.to_s,
             *args,
             **Sidekiq::Berater.defaults.merge(**kwargs),
-          )
+          ).tap do |limiter|
+            sidekiq_options limiter: limiter
+          end
         end
       end
     end
   end
 end
-
-# Sidekiq::Worker.prepend(Sidekiq::Berater::Worker)
-# puts "prepended"
