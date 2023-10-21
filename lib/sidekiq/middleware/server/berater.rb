@@ -5,7 +5,7 @@ module Sidekiq
         def call(worker, *, &block)
           # byebug
           limiter = worker.sidekiq_options_hash["limiter"]
-          return yield unless limiter
+          return yield unless limiter&.is_a?(::Berater::Limiter)
 
           limiter.limit(&block)
         rescue ::Berater::Overloaded
