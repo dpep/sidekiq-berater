@@ -6,10 +6,5 @@ RSpec.configure do |config|
   	Sidekiq::Testing.server_middleware do |chain|
   	  chain.add Sidekiq::Middleware::Server::Berater
   	end
-
-    Sidekiq::Berater.default_limits.clear
-
-    # for all workers, clear limiter
-    MockWorker.limiter = nil
   end
 end
