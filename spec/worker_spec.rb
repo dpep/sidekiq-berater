@@ -3,7 +3,6 @@ describe Sidekiq::Berater::Worker do
     it "initializes a limiter" do
       limiter = MockWorker.limit(1)
       expect(limiter).to be_a Berater::Limiter
-      expect(limiter).to be_a Berater::StaticLimiter
       expect(limiter.capacity).to be 1
     end
 

@@ -8,14 +8,10 @@ module Sidekiq
           return yield unless worker.class.limiter
 
           worker.class.limiter.limit(&block)
-        rescue ::Berater::Overloaded
-          raise Sidekiq::Limiter::OverLimit if Sidekiq.ent?
-
-          raise NotImplementedError
-
+        # rescue ::Berater::Overloaded
+          # raise Sidekiq::Limiter::OverLimit if Sidekiq.ent?
           # worker.class.perform_in(delay, *msg['args'])
         end
-
       end
     end
   end
