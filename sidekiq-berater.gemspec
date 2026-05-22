@@ -1,16 +1,15 @@
-package_name = File.basename(__FILE__).split(".")[0]
-require File.expand_path(Dir.glob("**/version.rb")[0], __dir__)
-
-package = Sidekiq::Berater
-
+require_relative "lib/sidekiq/berater/version"
 
 Gem::Specification.new do |s|
-  s.name        = package_name
-  s.version     = package.const_get "VERSION"
+  s.name        = "sidekiq-berater"
+  s.version     = Sidekiq::Berater::VERSION
   s.authors     = ["Daniel Pepper"]
-  s.summary     = package.to_s
-  s.description = "..."
-  s.homepage    = "https://github.com/dpep/#{package_name}"
+  s.summary     = "Sidekiq::Berater"
+  s.description = <<~DESCRIPTION
+    Sidekiq middleware that uses Berater to throttle, rate-limit,
+    or load-shed jobs at enqueue and execution time.
+  DESCRIPTION
+  s.homepage    = "https://github.com/dpep/sidekiq-berater"
   s.license     = "MIT"
 
   s.files       = Dir.glob("lib/**/*")
