@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   DESCRIPTION
   s.homepage    = "https://github.com/dpep/sidekiq-berater"
   s.license     = "MIT"
-  s.required_ruby_version = ">= 3.2"
+  s.required_ruby_version = ">= 3.3"
 
   s.files       = Dir.glob("lib/**/*")
   s.test_files  = Dir.glob("spec/**/*_spec.rb")
