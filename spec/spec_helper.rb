@@ -1,5 +1,5 @@
 require "berater/rspec"
-require "byebug"
+require "debug"
 require "rspec"
 require "simplecov"
 require "sidekiq/testing/inline"
