@@ -15,7 +15,6 @@ GEM
     concurrent-ruby (1.3.7)
     connection_pool (2.4.1)
     diff-lcs (1.5.0)
-    docile (1.4.0)
     meddleware (0.3.0)
     rack (3.1.21)
     redis (5.0.7)
@@ -40,12 +39,7 @@ GEM
       connection_pool (>= 2.3.0)
       rack (>= 2.2.4)
       redis-client (>= 0.14.0)
-    simplecov (0.22.0)
-      docile (~> 1.1)
-      simplecov-html (~> 0.11)
-      simplecov_json_formatter (~> 0.1)
-    simplecov-html (0.12.3)
-    simplecov_json_formatter (0.1.4)
+    simplecov (1.3.2)
 
 PLATFORMS
   ruby
@@ -54,7 +48,7 @@ DEPENDENCIES
   byebug
   rspec
   sidekiq-berater!
-  simplecov
+  simplecov (>= 1)
 
 BUNDLED WITH
    2.4.20
