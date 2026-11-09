@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   DESCRIPTION
   s.homepage    = "https://github.com/dpep/sidekiq-berater"
   s.license     = "MIT"
+  s.required_ruby_version = ">= 3.2"
 
   s.files       = Dir.glob("lib/**/*")
   s.test_files  = Dir.glob("spec/**/*_spec.rb")
@@ -18,7 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency "berater"
   s.add_dependency "sidekiq", ">= 6"
 
-  s.add_development_dependency "byebug"
+  s.add_development_dependency "debug"
   s.add_development_dependency "rspec"
-  s.add_development_dependency "simplecov"
+  s.add_development_dependency "simplecov", ">= 1"
 end
